@@ -1,0 +1,311 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1A1111111111111111111111 /* AimCamApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222222 /* AimCamApp.swift */; };
+		1A1111111111111111111112 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222223 /* ContentView.swift */; };
+		1A1111111111111111111113 /* ARSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222224 /* ARSessionManager.swift */; };
+		1A1111111111111111111114 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222225 /* ARViewContainer.swift */; };
+		1A1111111111111111111115 /* AimCamARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222226 /* AimCamARView.swift */; };
+		1A1111111111111111111119 /* BallDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222231 /* BallDetector.swift */; };
+		1A1111111111111111111116 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222228 /* Assets.xcassets */; };
+		1A1111111111111111111117 /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222229 /* ARKit.framework */; };
+		1A1111111111111111111118 /* RealityKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222230 /* RealityKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		1A2222222222222222222201 /* AimCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AimCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A2222222222222222222222 /* AimCamApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AimCamApp.swift; sourceTree = "<group>"; };
+		1A2222222222222222222223 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1A2222222222222222222224 /* ARSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSessionManager.swift; sourceTree = "<group>"; };
+		1A2222222222222222222225 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
+		1A2222222222222222222226 /* AimCamARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AimCamARView.swift; sourceTree = "<group>"; };
+		1A2222222222222222222231 /* BallDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BallDetector.swift; sourceTree = "<group>"; };
+		1A2222222222222222222227 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1A2222222222222222222228 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1A2222222222222222222229 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
+		1A2222222222222222222230 /* RealityKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealityKit.framework; path = System/Library/Frameworks/RealityKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1A3333333333333333333333 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A1111111111111111111117 /* ARKit.framework in Frameworks */,
+				1A1111111111111111111118 /* RealityKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1A4444444444444444444444 = {
+			isa = PBXGroup;
+			children = (
+				1A5555555555555555555555 /* AimCam */,
+				1A6666666666666666666666 /* Frameworks */,
+				1A7777777777777777777777 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1A5555555555555555555555 /* AimCam */ = {
+			isa = PBXGroup;
+			children = (
+				1A8888888888888888888888 /* AR */,
+				1A2222222222222222222228 /* Assets.xcassets */,
+				1A2222222222222222222227 /* Info.plist */,
+				1A2222222222222222222222 /* AimCamApp.swift */,
+				1A2222222222222222222223 /* ContentView.swift */,
+			);
+			path = AimCam;
+			sourceTree = "<group>";
+		};
+		1A6666666666666666666666 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1A2222222222222222222229 /* ARKit.framework */,
+				1A2222222222222222222230 /* RealityKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1A7777777777777777777777 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A2222222222222222222201 /* AimCam.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1A8888888888888888888888 /* AR */ = {
+			isa = PBXGroup;
+			children = (
+				1A2222222222222222222226 /* AimCamARView.swift */,
+				1A2222222222222222222225 /* ARViewContainer.swift */,
+				1A2222222222222222222224 /* ARSessionManager.swift */,
+				1A2222222222222222222231 /* BallDetector.swift */,
+			);
+			path = AR;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1A9999999999999999999999 /* AimCam */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1ABBBBBBBBBBBBBBBBBBBBBB /* Build configuration list for PBXNativeTarget "AimCam" */;
+			buildPhases = (
+				1ACCCCCCCCCCCCCCCCCCCCCC /* Sources */,
+				1A3333333333333333333333 /* Frameworks */,
+				1AEEEEEEEEEEEEEEEEEEEEEE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AimCam;
+			productName = AimCam;
+			productReference = 1A2222222222222222222201 /* AimCam.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1AFFFFFFFFFFFFFFFFFFFFFFFF /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1600;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					1A9999999999999999999999 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 1AAAAAAAAAAAAAAAAAAAAAAA /* Build configuration list for PBXProject "AimCam" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1A4444444444444444444444;
+			productRefGroup = 1A7777777777777777777777 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1A9999999999999999999999 /* AimCam */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1AEEEEEEEEEEEEEEEEEEEEEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A1111111111111111111116 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1ACCCCCCCCCCCCCCCCCCCCCC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A1111111111111111111111 /* AimCamApp.swift in Sources */,
+				1A1111111111111111111112 /* ContentView.swift in Sources */,
+				1A1111111111111111111115 /* AimCamARView.swift in Sources */,
+				1A1111111111111111111114 /* ARViewContainer.swift in Sources */,
+				1A1111111111111111111113 /* ARSessionManager.swift in Sources */,
+				1A1111111111111111111119 /* BallDetector.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1A1212121212121212121212 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		1A1313131313131313131313 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		1A1414141414141414141414 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 259YUMUMKQ;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AimCam/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.AimCam;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				UILAUNCHSCREEN_GENERATOR = YES;
+			};
+			name = Debug;
+		};
+		1A1515151515151515151515 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 259YUMUMKQ;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AimCam/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.example.AimCam;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				UILAUNCHSCREEN_GENERATOR = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1AAAAAAAAAAAAAAAAAAAAAAA /* Build configuration list for PBXProject "AimCam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A1212121212121212121212 /* Debug */,
+				1A1313131313131313131313 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1ABBBBBBBBBBBBBBBBBBBBBB /* Build configuration list for PBXNativeTarget "AimCam" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A1414141414141414141414 /* Debug */,
+				1A1515151515151515151515 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1AFFFFFFFFFFFFFFFFFFFFFFFF /* Project object */;
+}
