@@ -27,6 +27,7 @@ final class ARSessionManager: NSObject, ObservableObject {
     // MARK: - AR references
     private weak var arView: ARView?
     private var didStartSession = false
+    private var shouldResumeAfterBackground = false
 
     private let ballDetector = BallDetector()
 
@@ -62,22 +63,7 @@ final class ARSessionManager: NSObject, ObservableObject {
     func startSessionIfNeeded() {
         guard let arView, !didStartSession else { return }
         didStartSession = true
-
-        let config = ARWorldTrackingConfiguration()
-        config.planeDetection = [.horizontal]
-        config.environmentTexturing = .automatic
-
-        if ARWorldTrackingConfiguration.supportsSceneReconstruction(.meshWithClassification) {
-            config.sceneReconstruction = .meshWithClassification
-        } else if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
-            config.sceneReconstruction = .mesh
-        }
-
-        if ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) {
-            config.frameSemantics.insert(.sceneDepth)
-        }
-
-        arView.session.run(config, options: [.resetTracking, .removeExistingAnchors])
+        runSession(options: [.resetTracking, .removeExistingAnchors], arView: arView)
     }
 
     func applyDebugOptions() {
@@ -107,24 +93,53 @@ final class ARSessionManager: NSObject, ObservableObject {
         if sessionRunning {
             arView.session.pause()
             sessionRunning = false
+            shouldResumeAfterBackground = false
         } else {
-            let config = ARWorldTrackingConfiguration()
-            config.planeDetection = [.horizontal]
-            config.environmentTexturing = .automatic
-
-            if ARWorldTrackingConfiguration.supportsSceneReconstruction(.meshWithClassification) {
-                config.sceneReconstruction = .meshWithClassification
-            } else if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
-                config.sceneReconstruction = .mesh
-            }
-
-            if ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) {
-                config.frameSemantics.insert(.sceneDepth)
-            }
-
-            arView.session.run(config)
-            sessionRunning = true
+            runSession(arView: arView)
         }
+    }
+
+    func handleScenePhaseChange(_ phase: ScenePhase) {
+        switch phase {
+        case .active:
+            if shouldResumeAfterBackground {
+                shouldResumeAfterBackground = false
+                if let arView {
+                    runSession(arView: arView)
+                }
+            }
+        case .inactive, .background:
+            if sessionRunning, let arView {
+                shouldResumeAfterBackground = true
+                arView.session.pause()
+                sessionRunning = false
+            }
+        @unknown default:
+            break
+        }
+    }
+
+    private func makeConfiguration() -> ARWorldTrackingConfiguration {
+        let config = ARWorldTrackingConfiguration()
+        config.planeDetection = [.horizontal]
+        config.environmentTexturing = .automatic
+
+        if ARWorldTrackingConfiguration.supportsSceneReconstruction(.meshWithClassification) {
+            config.sceneReconstruction = .meshWithClassification
+        } else if ARWorldTrackingConfiguration.supportsSceneReconstruction(.mesh) {
+            config.sceneReconstruction = .mesh
+        }
+
+        if ARWorldTrackingConfiguration.supportsFrameSemantics(.sceneDepth) {
+            config.frameSemantics.insert(.sceneDepth)
+        }
+        return config
+    }
+
+    private func runSession(options: ARSession.RunOptions = [], arView: ARView) {
+        let config = makeConfiguration()
+        arView.session.run(config, options: options)
+        sessionRunning = true
     }
 
     func reset() {

@@ -2,6 +2,8 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var sessionManager = ARSessionManager()
+    @State private var showingPrivacyPolicy = false
+    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         ZStack {
@@ -29,6 +31,12 @@ struct ContentView: View {
                 }
             }
         }
+        .sheet(isPresented: $showingPrivacyPolicy) {
+            PrivacyPolicyView()
+        }
+        .onChange(of: scenePhase) { newPhase in
+            sessionManager.handleScenePhaseChange(newPhase)
+        }
     }
 
     // MARK: - Top bar (ball, pocket, reset)
@@ -49,6 +57,10 @@ struct ContentView: View {
             }
 
             Spacer(minLength: 0)
+
+            iconButton(systemName: "doc.text", accessibilityLabel: "Privacy policy") {
+                showingPrivacyPolicy = true
+            }
         }
         .frame(height: 50)
         .background(Color.black.opacity(0.45))

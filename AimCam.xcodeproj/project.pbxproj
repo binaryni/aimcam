@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		1A1111111111111111111111 /* AimCamApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222222 /* AimCamApp.swift */; };
 		1A1111111111111111111112 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222223 /* ContentView.swift */; };
+		1A111111111111111111111A /* PrivacyPolicyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222232 /* PrivacyPolicyView.swift */; };
 		1A1111111111111111111113 /* ARSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222224 /* ARSessionManager.swift */; };
 		1A1111111111111111111114 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222225 /* ARViewContainer.swift */; };
 		1A1111111111111111111115 /* AimCamARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A2222222222222222222226 /* AimCamARView.swift */; };
@@ -22,6 +23,7 @@
 		1A2222222222222222222201 /* AimCam.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AimCam.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A2222222222222222222222 /* AimCamApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AimCamApp.swift; sourceTree = "<group>"; };
 		1A2222222222222222222223 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1A2222222222222222222232 /* PrivacyPolicyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyPolicyView.swift; sourceTree = "<group>"; };
 		1A2222222222222222222224 /* ARSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARSessionManager.swift; sourceTree = "<group>"; };
 		1A2222222222222222222225 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
 		1A2222222222222222222226 /* AimCamARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AimCamARView.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 				1A2222222222222222222227 /* Info.plist */,
 				1A2222222222222222222222 /* AimCamApp.swift */,
 				1A2222222222222222222223 /* ContentView.swift */,
+				1A2222222222222222222232 /* PrivacyPolicyView.swift */,
 			);
 			path = AimCam;
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 			files = (
 				1A1111111111111111111111 /* AimCamApp.swift in Sources */,
 				1A1111111111111111111112 /* ContentView.swift in Sources */,
+				1A111111111111111111111A /* PrivacyPolicyView.swift in Sources */,
 				1A1111111111111111111115 /* AimCamARView.swift in Sources */,
 				1A1111111111111111111114 /* ARViewContainer.swift in Sources */,
 				1A1111111111111111111113 /* ARSessionManager.swift in Sources */,
