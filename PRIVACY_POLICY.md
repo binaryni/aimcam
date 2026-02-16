@@ -32,4 +32,4 @@ We may update this policy from time to time. Updates will be posted in the App S
 
 ## Contact
 If you have questions about this policy, contact us at:
-support@binaryni.com
+support@billiardphy.com
