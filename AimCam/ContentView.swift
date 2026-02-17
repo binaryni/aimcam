@@ -34,8 +34,11 @@ struct ContentView: View {
         .sheet(isPresented: $showingPrivacyPolicy) {
             PrivacyPolicyView()
         }
-        .onChange(of: scenePhase) { newPhase in
-            sessionManager.handleScenePhaseChange(newPhase)
+        .onChange(of: scenePhase) { _, newPhase in
+            // Defer to avoid publishing during view updates.
+            DispatchQueue.main.async {
+                sessionManager.handleScenePhaseChange(newPhase)
+            }
         }
     }
 

@@ -37,9 +37,6 @@ final class BallDetector {
 
     /// Returns the observed circle (2D) and optional depth at its center.
     func observeBall2D(frame: ARFrame, tapPointInView: CGPoint, viewportSize: CGSize, interfaceOrientation: UIInterfaceOrientation) -> BallObservation2D? {
-        let imageResolution = CGSize(width: CGFloat(frame.camera.imageResolution.width),
-                                     height: CGFloat(frame.camera.imageResolution.height))
-
         // Map view point -> normalized image point (origin top-left) using ARFrame display transform.
         let viewNorm = CGPoint(x: tapPointInView.x / viewportSize.width,
                                y: tapPointInView.y / viewportSize.height)

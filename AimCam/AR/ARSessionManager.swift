@@ -92,7 +92,7 @@ final class ARSessionManager: NSObject, ObservableObject {
         guard let arView else { return }
         if sessionRunning {
             arView.session.pause()
-            sessionRunning = false
+            setSessionRunning(false)
             shouldResumeAfterBackground = false
         } else {
             runSession(arView: arView)
@@ -112,7 +112,7 @@ final class ARSessionManager: NSObject, ObservableObject {
             if sessionRunning, let arView {
                 shouldResumeAfterBackground = true
                 arView.session.pause()
-                sessionRunning = false
+                setSessionRunning(false)
             }
         @unknown default:
             break
@@ -139,7 +139,14 @@ final class ARSessionManager: NSObject, ObservableObject {
     private func runSession(options: ARSession.RunOptions = [], arView: ARView) {
         let config = makeConfiguration()
         arView.session.run(config, options: options)
-        sessionRunning = true
+        setSessionRunning(true)
+    }
+
+    private func setSessionRunning(_ running: Bool) {
+        // Avoid publishing during view updates.
+        DispatchQueue.main.async { [weak self] in
+            self?.sessionRunning = running
+        }
     }
 
     func reset() {
@@ -247,7 +254,7 @@ final class ARSessionManager: NSObject, ObservableObject {
     }
 
     private func updatePocketAndGhostKeepingXZ(pocketXZ: SIMD2<Float>, ballCenter: SIMD3<Float>, radius: Float) {
-        var pocket = SIMD3<Float>(pocketXZ.x, ballCenter.y, pocketXZ.y)
+        let pocket = SIMD3<Float>(pocketXZ.x, ballCenter.y, pocketXZ.y)
         pocketCenter = pocket
 
         if let anchor = pocketMarkerAnchor {
