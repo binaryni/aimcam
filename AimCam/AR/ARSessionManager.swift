@@ -39,6 +39,7 @@ final class ARSessionManager: NSObject, ObservableObject {
     private var ballMarkerAnchor: AnchorEntity?
     private var pocketMarkerAnchor: AnchorEntity?
     private var ghostBallAnchor: AnchorEntity?
+    private weak var ballOverlayEntity: ModelEntity?
 
     /// Auto-reset: when in `.done` state and tracking is lost/blocked for this long, reset automatically.
     private var trackingLostSince: Date?
@@ -51,7 +52,7 @@ final class ARSessionManager: NSObject, ObservableObject {
         case .pickPocket:
             "Tap the pocket"
         case .done:
-            "Ghost ball placed"
+            "Ghost ball placed. Tap screen to re-lock the object ball"
         }
     }
 
@@ -155,6 +156,7 @@ final class ARSessionManager: NSObject, ObservableObject {
         ballCenter = nil
         pocketCenter = nil
         tableSurfaceY = nil
+        ballOverlayEntity = nil
 
         (arView as? AimCamARView)?.clearBallDetectionOverlay()
 
@@ -173,11 +175,7 @@ final class ARSessionManager: NSObject, ObservableObject {
         ghostBallAnchor = nil
     }
 
-    func autoUpdateBall() {
-        autoUpdateBall(tapPointOverride: nil)
-    }
-
-    private func autoUpdateBall(tapPointOverride: CGPoint?) {
+    private func autoUpdateBall() {
         guard let arView, let ballCenter else {
             reset()
             return
@@ -185,7 +183,7 @@ final class ARSessionManager: NSObject, ObservableObject {
 
         // Project the current ball center into screen space.
         let projected = arView.project(ballCenter)
-        let pt = tapPointOverride ?? projected
+        let pt = projected
 
         // Check if it's visible on screen.
         guard let pt, arView.bounds.contains(pt) else {
@@ -202,6 +200,7 @@ final class ARSessionManager: NSObject, ObservableObject {
         selectionState = .pickBall
         self.ballCenter = nil
         self.pocketCenter = nil
+        ballOverlayEntity = nil
         (arView as? AimCamARView)?.clearBallDetectionOverlay()
 
         if let anchor = ballMarkerAnchor { arView.scene.removeAnchor(anchor) }
@@ -233,24 +232,6 @@ final class ARSessionManager: NSObject, ObservableObject {
                 self.statusText = nil
             }
         }
-    }
-
-    private func isBallOverlayHit(point: CGPoint, in arView: ARView) -> Bool {
-        guard let center = ballCenter else { return false }
-        guard let centerPt = arView.project(center) else { return false }
-        if !arView.bounds.contains(centerPt) { return false }
-
-        let edgeWorld = center + SIMD3<Float>(ballRadiusMeters, 0, 0)
-        let edgePt = arView.project(edgeWorld)
-        let radiusPx: CGFloat
-        if let edgePt {
-            radiusPx = hypot(edgePt.x - centerPt.x, edgePt.y - centerPt.y)
-        } else {
-            radiusPx = 0
-        }
-        let hitRadius = max(radiusPx * 1.25, 24)
-        let dist = hypot(point.x - centerPt.x, point.y - centerPt.y)
-        return dist <= hitRadius
     }
 
     private func updatePocketAndGhostKeepingXZ(pocketXZ: SIMD2<Float>, ballCenter: SIMD3<Float>, radius: Float) {
@@ -295,13 +276,9 @@ final class ARSessionManager: NSObject, ObservableObject {
     }
 
     func handleTap(point: CGPoint, zoomScale: CGFloat, in arView: ARView) {
-        if isBallOverlayHit(point: point, in: arView) {
+        if selectionState == .done {
             autoUpdateBall()
             return
-        }
-
-        if selectionState == .done {
-            reset()
         }
 
         switch selectionState {
@@ -344,6 +321,7 @@ final class ARSessionManager: NSObject, ObservableObject {
         if let anchor = ballMarkerAnchor {
             arView?.scene.removeAnchor(anchor)
         }
+        ballOverlayEntity = nil
         ballMarkerAnchor = makeMarkerAnchor(kind: .ball, at: center, radius: radius)
         if let ballMarkerAnchor {
             arView?.scene.addAnchor(ballMarkerAnchor)
@@ -440,9 +418,9 @@ final class ARSessionManager: NSObject, ObservableObject {
                                 imageWidthPixels: CGFloat(frame.camera.imageResolution.width)
                             )
 
-                            // Always flash the detected circle as confirmation.
+                            // Flash the green tracking circle as confirmation.
                             if let av = arView as? AimCamARView {
-                                av.flashDetectionCircle(center: obs2D.centerPointInView, radius: rView)
+                                av.flashTrackingCircle(center: obs2D.centerPointInView, radius: rView)
                             }
 
                             // Draw debug overlays only when debug is on.
@@ -596,6 +574,7 @@ final class ARSessionManager: NSObject, ObservableObject {
             )
             model.name = "ball_overlay"
             model.generateCollisionShapes(recursive: true)
+            ballOverlayEntity = model
             anchor.addChild(model)
 
         case .pocket:
@@ -722,6 +701,46 @@ extension ARSessionManager: ARSessionDelegate {
             }
             // Check auto-reset on every frame update.
             self.checkAutoReset(trackingState: tracking)
+
+            // Update the always-on ball tracking circle.
+            guard let arView = self.arView as? AimCamARView else { return }
+            guard let ballCenter = self.ballCenter else {
+                arView.setTrackingCircle(center: nil, radius: nil)
+                return
+            }
+
+            guard let centerPt = arView.project(ballCenter),
+                  arView.bounds.contains(centerPt) else {
+                arView.setTrackingCircle(center: nil, radius: nil)
+                return
+            }
+
+            // Compute screen radius using camera right/up directions for better match.
+            if let frame = arView.session.currentFrame {
+                let camT = frame.camera.transform
+                let right = SIMD3<Float>(camT.columns.0.x, camT.columns.0.y, camT.columns.0.z)
+                let up = SIMD3<Float>(camT.columns.1.x, camT.columns.1.y, camT.columns.1.z)
+                let edgeRight = ballCenter + right * self.ballRadiusMeters
+                let edgeUp = ballCenter + up * self.ballRadiusMeters
+                if let rightPt = arView.project(edgeRight),
+                   let upPt = arView.project(edgeUp) {
+                    let r1 = hypot(rightPt.x - centerPt.x, rightPt.y - centerPt.y)
+                    let r2 = hypot(upPt.x - centerPt.x, upPt.y - centerPt.y)
+                    let radiusPx = max(r1, r2)
+                    arView.setTrackingCircle(center: centerPt, radius: radiusPx)
+                    return
+                }
+            }
+
+            // Fallback: use world X axis projection.
+            let edgeWorld = ballCenter + SIMD3<Float>(self.ballRadiusMeters, 0, 0)
+            let edgePt = arView.project(edgeWorld)
+            if let edgePt {
+                let radiusPx = hypot(edgePt.x - centerPt.x, edgePt.y - centerPt.y)
+                arView.setTrackingCircle(center: centerPt, radius: radiusPx)
+            } else {
+                arView.setTrackingCircle(center: centerPt, radius: nil)
+            }
         }
     }
 

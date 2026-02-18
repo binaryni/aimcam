@@ -41,12 +41,22 @@ final class AimCamARView: ARView {
         return layer
     }()
 
+    private let trackingCircleLayer: CAShapeLayer = {
+        let layer = CAShapeLayer()
+        layer.strokeColor = UIColor.systemGreen.cgColor
+        layer.fillColor = UIColor.clear.cgColor
+        layer.lineWidth = 2.0
+        layer.opacity = 0.95
+        return layer
+    }()
+
     @MainActor required init(frame frameRect: CGRect) {
         super.init(frame: frameRect, cameraMode: .ar, automaticallyConfigureSession: false)
         setupGestures()
         layer.addSublayer(roiLayer)
         layer.addSublayer(detectionLayer)
         layer.addSublayer(detectionCenterLayer)
+        layer.addSublayer(trackingCircleLayer)
     }
 
     @MainActor required dynamic init?(coder decoder: NSCoder) {
@@ -67,6 +77,7 @@ final class AimCamARView: ARView {
         roiLayer.frame = bounds
         detectionLayer.frame = bounds
         detectionCenterLayer.frame = bounds
+        trackingCircleLayer.frame = bounds
     }
 
     /// Draw detected edge points (and optionally a fitted circle) in view coordinates.
@@ -103,17 +114,29 @@ final class AimCamARView: ARView {
         detectionCenterLayer.path = nil
     }
 
-    /// Flash the fitted circle overlay a few times as confirmation feedback.
     @MainActor
-    func flashDetectionCircle(center: CGPoint, radius: CGFloat) {
-        // Draw just the circle (no crosshair / dots) on the center layer.
+    func setTrackingCircle(center: CGPoint?, radius: CGFloat?) {
+        guard let center, let radius, radius.isFinite, radius > 2 else {
+            trackingCircleLayer.path = nil
+            return
+        }
+        let rect = CGRect(x: center.x - radius,
+                          y: center.y - radius,
+                          width: radius * 2,
+                          height: radius * 2)
+        trackingCircleLayer.path = UIBezierPath(ovalIn: rect).cgPath
+    }
+
+    /// Flash the green tracking circle a few times as confirmation feedback.
+    @MainActor
+    func flashTrackingCircle(center: CGPoint, radius: CGFloat) {
         let circlePath = UIBezierPath()
         if radius.isFinite, radius > 2 {
             circlePath.append(UIBezierPath(ovalIn: CGRect(x: center.x - radius, y: center.y - radius, width: 2 * radius, height: 2 * radius)))
         }
-        detectionCenterLayer.path = circlePath.cgPath
-        detectionCenterLayer.lineWidth = 3.0
-        detectionCenterLayer.opacity = 1.0
+        trackingCircleLayer.path = circlePath.cgPath
+        trackingCircleLayer.lineWidth = 3.0
+        trackingCircleLayer.opacity = 1.0
 
         // Animate opacity: flash 3 times over ~0.9s, then fade out.
         let flash = CAKeyframeAnimation(keyPath: "opacity")
@@ -122,13 +145,12 @@ final class AimCamARView: ARView {
         flash.duration = 0.9
         flash.isRemovedOnCompletion = false
         flash.fillMode = .forwards
-        detectionCenterLayer.add(flash, forKey: "flash")
+        trackingCircleLayer.add(flash, forKey: "flash")
 
-        // Clear after animation completes.
+        // Keep circle after flash; remove animation only.
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
-            self?.detectionCenterLayer.removeAnimation(forKey: "flash")
-            self?.detectionCenterLayer.opacity = 0.9
-            self?.detectionCenterLayer.path = nil
+            self?.trackingCircleLayer.removeAnimation(forKey: "flash")
+            self?.trackingCircleLayer.opacity = 0.95
         }
     }
 

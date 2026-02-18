@@ -45,10 +45,6 @@ struct ContentView: View {
     // MARK: - Top bar (ball, pocket, reset)
     private var topBarContent: some View {
         HStack(spacing: 12) {
-            iconButton(systemName: "arrow.triangle.2.circlepath", accessibilityLabel: "Update ball") {
-                sessionManager.autoUpdateBall()
-            }
-
             iconButton(systemName: "scope", accessibilityLabel: "Reselect pocket") {
                 sessionManager.reselectPocket()
             }
